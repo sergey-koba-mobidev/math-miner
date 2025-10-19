@@ -1,3 +1,4 @@
+
 export const en = {
   // General UI
   shop: 'Shop',
@@ -22,6 +23,7 @@ export const en = {
   upgrade: 'Upgrade',
   hero: 'Hero',
   endless: 'Endless',
+  regenerate: 'Regenerate',
 
   // Top Bar
   depthTitle: 'Current accessible depth',
@@ -45,6 +47,8 @@ export const en = {
   // Confirmation Modal
   resetGameTitle: 'Reset Game?',
   resetGameMessage: 'Are you sure? All progress, including resources and equipment, will be permanently lost.',
+  regenerateMineTitle: 'Regenerate Mine?',
+  regenerateMineMessage: 'Are you sure? This will create a new mine. You will keep all your progress, equipment, and resources.',
 
   // Settings Modal
   settingsTitle: 'Settings',
@@ -60,6 +64,8 @@ export const en = {
   testingModeDesc: 'All equipment upgrades are free.',
   resetGame: 'Reset Game',
   resetGameDesc: 'This will permanently delete all your progress.',
+  regenerateMine: 'Regenerate Mine',
+  regenerateMineDesc: 'Resets the entire mine grid. You keep all upgrades and resources.',
   language: 'Language',
   languageDesc: 'Choose the game language.',
   

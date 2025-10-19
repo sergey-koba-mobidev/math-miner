@@ -1,3 +1,4 @@
+
 import type { TranslationSchema } from './schema';
 
 export const ua: TranslationSchema = {
@@ -24,6 +25,7 @@ export const ua: TranslationSchema = {
   upgrade: 'Покращити',
   hero: 'Герой',
   endless: 'Безкінечний',
+  regenerate: 'Перегенерувати',
 
   // Top Bar
   depthTitle: 'Поточна доступна глибина',
@@ -47,6 +49,8 @@ export const ua: TranslationSchema = {
   // Confirmation Modal
   resetGameTitle: 'Скинути гру?',
   resetGameMessage: 'Ви впевнені? Весь прогрес, включаючи ресурси та спорядження, буде назавжди втрачено.',
+  regenerateMineTitle: 'Перегенерувати шахту?',
+  regenerateMineMessage: 'Ви впевнені? Це створить нову шахту. Ви збережете весь свій прогрес, спорядження та ресурси.',
 
   // Settings Modal
   settingsTitle: 'Налаштування',
@@ -62,6 +66,8 @@ export const ua: TranslationSchema = {
   testingModeDesc: 'Усі покращення спорядження безкоштовні.',
   resetGame: 'Скинути гру',
   resetGameDesc: 'Це назавжди видалить увесь ваш прогрес.',
+  regenerateMine: 'Перегенерувати шахту',
+  regenerateMineDesc: 'Скидає всю сітку шахти. Ви зберігаєте всі покращення та ресурси.',
   language: 'Мова',
   languageDesc: 'Оберіть мову гри.',
   

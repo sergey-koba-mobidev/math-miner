@@ -44,6 +44,7 @@ export const useGame = () => {
     const [mathDifficulty, setMathDifficulty] = useState(3);
     const [resourceMultiplier, setResourceMultiplier] = useState(1);
     const [isResetConfirmationOpen, setIsResetConfirmationOpen] = useState(false);
+    const [isRegenerateConfirmationOpen, setIsRegenerateConfirmationOpen] = useState(false);
     const [equipmentLevels, setEquipmentLevels] = useState<EquipmentLevels>(initialEquipment);
     const [currentMobIndex, setCurrentMobIndex] = useState(0);
     const [digsSinceLastReward, setDigsSinceLastReward] = useState(0);
@@ -507,6 +508,12 @@ export const useGame = () => {
         window.location.reload();
     };
 
+    const handleRegenerateMine = () => {
+        setMineGrid(generateInitialMine());
+        setDeepestRow(0);
+        setIsRegenerateConfirmationOpen(false);
+    };
+
     const handleLootAnimationEnd = (id: number, resource: ResourceType) => {
         setLootAnimations(prev => prev.filter(anim => anim.id !== id));
         setBlinkingResources(prev => ({ ...prev, [resource]: true }));
@@ -519,12 +526,12 @@ export const useGame = () => {
         equipmentLevels, heroAnimation, mobAnimation, blinkingResources, language, mineGrid,
         deepestRow, diggingAnimationTarget, modalState, rewardMessage, isShopOpen, freeUpgradeInfo,
         isBestiaryOpen, currentMobIndex, isSettingsOpen, isTestingMode, mathDifficulty,
-        resourceMultiplier, isTutorialOpen, isResetConfirmationOpen,
+        resourceMultiplier, isTutorialOpen, isResetConfirmationOpen, isRegenerateConfirmationOpen,
         // Handlers
         handleLootAnimationEnd, setIsShopOpen, setIsBestiaryOpen, setIsSettingsOpen, handleSolveProblem,
         setRewardMessage, handleUpgradeEquipment, setFreeUpgradeInfo, setIsTutorialOpen,
         setIsResetConfirmationOpen, handleResetGame, setIsTestingMode, setMathDifficulty,
-        setResourceMultiplier, setLanguage, handleDig,
+        setResourceMultiplier, setLanguage, handleDig, setIsRegenerateConfirmationOpen, handleRegenerateMine,
     };
 };
 

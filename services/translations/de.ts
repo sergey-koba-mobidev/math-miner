@@ -1,3 +1,4 @@
+
 import type { TranslationSchema } from './schema';
 
 export const de: TranslationSchema = {
@@ -24,6 +25,7 @@ export const de: TranslationSchema = {
   upgrade: 'Verbessern',
   hero: 'Held',
   endless: 'Endlos',
+  regenerate: 'Neu generieren',
 
   // Top Bar
   depthTitle: 'Aktuell erreichbare Tiefe',
@@ -47,6 +49,8 @@ export const de: TranslationSchema = {
   // Confirmation Modal
   resetGameTitle: 'Spiel zurücksetzen?',
   resetGameMessage: 'Bist du sicher? Dein gesamter Fortschritt, einschließlich Ressourcen und Ausrüstung, wird dauerhaft gelöscht.',
+  regenerateMineTitle: 'Mine neu generieren?',
+  regenerateMineMessage: 'Bist du sicher? Dies wird eine neue Mine erstellen. Du behältst deinen gesamten Fortschritt, deine Ausrüstung und deine Ressourcen.',
 
   // Settings Modal
   settingsTitle: 'Einstellungen',
@@ -62,6 +66,8 @@ export const de: TranslationSchema = {
   testingModeDesc: 'Alle Ausrüstungs-Upgrades sind kostenlos.',
   resetGame: 'Spiel zurücksetzen',
   resetGameDesc: 'Dies wird deinen gesamten Fortschritt dauerhaft löschen.',
+  regenerateMine: 'Mine neu generieren',
+  regenerateMineDesc: 'Setzt das gesamte Minen-Gitter zurück. Du behältst alle Upgrades und Ressourcen.',
   language: 'Sprache',
   languageDesc: 'Wähle die Sprache des Spiels.',
   

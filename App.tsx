@@ -43,6 +43,7 @@ const App: React.FC = () => {
     resourceMultiplier,
     isTutorialOpen,
     isResetConfirmationOpen,
+    isRegenerateConfirmationOpen,
     // Handlers
     handleLootAnimationEnd,
     setIsShopOpen,
@@ -60,6 +61,8 @@ const App: React.FC = () => {
     setResourceMultiplier,
     setLanguage,
     handleDig,
+    setIsRegenerateConfirmationOpen,
+    handleRegenerateMine,
   } = useGame();
 
   return (
@@ -135,6 +138,7 @@ const App: React.FC = () => {
         isTestingMode={isTestingMode}
         onToggleTestingMode={() => setIsTestingMode(prev => !prev)}
         onResetGame={() => setIsResetConfirmationOpen(true)}
+        onRegenerateMine={() => setIsRegenerateConfirmationOpen(true)}
         mathDifficulty={mathDifficulty}
         onDifficultyChange={setMathDifficulty}
         resourceMultiplier={resourceMultiplier}
@@ -157,6 +161,17 @@ const App: React.FC = () => {
         onConfirm={handleResetGame}
         title={t('resetGameTitle', language)}
         message={t('resetGameMessage', language)}
+        language={language}
+      />
+      <ConfirmationModal
+        isOpen={isRegenerateConfirmationOpen}
+        onCancel={() => setIsRegenerateConfirmationOpen(false)}
+        onConfirm={handleRegenerateMine}
+        title={t('regenerateMineTitle', language)}
+        message={t('regenerateMineMessage', language)}
+        confirmText={t('regenerate', language)}
+        confirmButtonClass="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-8 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-stone-800"
+        borderColorClass="border-yellow-500"
         language={language}
       />
     </div>

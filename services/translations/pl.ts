@@ -1,3 +1,4 @@
+
 import type { TranslationSchema } from './schema';
 
 export const pl: TranslationSchema = {
@@ -24,6 +25,7 @@ export const pl: TranslationSchema = {
   upgrade: 'Ulepsz',
   hero: 'Bohater',
   endless: 'Nieskończony',
+  regenerate: 'Zregeneruj',
 
   // Top Bar
   depthTitle: 'Obecna dostępna głębokość',
@@ -47,6 +49,8 @@ export const pl: TranslationSchema = {
   // Confirmation Modal
   resetGameTitle: 'Zresetować grę?',
   resetGameMessage: 'Czy na pewno? Cały postęp, w tym zasoby i ekwipunek, zostanie trwale utracony.',
+  regenerateMineTitle: 'Zregenerować kopalnię?',
+  regenerateMineMessage: 'Jesteś pewien? To stworzy nową kopalnię. Zachowasz cały swój postęp, ekwipunek i zasoby.',
 
   // Settings Modal
   settingsTitle: 'Ustawienia',
@@ -62,6 +66,8 @@ export const pl: TranslationSchema = {
   testingModeDesc: 'Wszystkie ulepszenia ekwipunku są darmowe.',
   resetGame: 'Zresetuj grę',
   resetGameDesc: 'To trwale usunie cały twój postęp.',
+  regenerateMine: 'Zregeneruj kopalnię',
+  regenerateMineDesc: 'Resetuje całą siatkę kopalni. Zachowujesz wszystkie ulepszenia i zasoby.',
   language: 'Język',
   languageDesc: 'Wybierz język gry.',
   

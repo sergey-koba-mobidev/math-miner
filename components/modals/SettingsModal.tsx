@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Language, t } from '../../services/translation';
 
@@ -7,6 +8,7 @@ interface SettingsModalProps {
   isTestingMode: boolean;
   onToggleTestingMode: () => void;
   onResetGame: () => void;
+  onRegenerateMine: () => void;
   mathDifficulty: number;
   onDifficultyChange: (level: number) => void;
   resourceMultiplier: number;
@@ -17,7 +19,7 @@ interface SettingsModalProps {
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ 
-    isOpen, onClose, isTestingMode, onToggleTestingMode, onResetGame, 
+    isOpen, onClose, isTestingMode, onToggleTestingMode, onResetGame, onRegenerateMine,
     mathDifficulty, onDifficultyChange, resourceMultiplier, onResourceMultiplierChange,
     onOpenTutorial, language, onLanguageChange
 }) => {
@@ -131,6 +133,18 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                         <span className={`inline-block w-5 h-5 bg-white rounded-full transform transition-transform duration-300 ease-in-out ${toggleIndicatorClass}`} />
                         </button>
                     </div>
+                </div>
+                <div className="flex items-center justify-between bg-stone-900/50 p-4 rounded-lg mb-4">
+                    <div>
+                        <p className="text-white">{t('regenerateMine', language)}</p>
+                        <p className="text-sm text-stone-400">{t('regenerateMineDesc', language)}</p>
+                    </div>
+                    <button
+                        onClick={onRegenerateMine}
+                        className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-800 focus:ring-yellow-500"
+                    >
+                        {t('regenerate', language)}
+                    </button>
                 </div>
                 <div className="flex items-center justify-between bg-stone-900/50 p-4 rounded-lg">
                     <div>

@@ -1,3 +1,4 @@
+
 import type { TranslationSchema } from './schema';
 
 export const es: TranslationSchema = {
@@ -24,6 +25,7 @@ export const es: TranslationSchema = {
   upgrade: 'Mejorar',
   hero: 'Héroe',
   endless: 'Infinito',
+  regenerate: 'Regenerar',
 
   // Top Bar
   depthTitle: 'Profundidad actual accesible',
@@ -47,6 +49,8 @@ export const es: TranslationSchema = {
   // Confirmation Modal
   resetGameTitle: '¿Reiniciar Juego?',
   resetGameMessage: '¿Estás seguro? Todo el progreso, incluyendo recursos y equipo, se perderá permanentemente.',
+  regenerateMineTitle: '¿Regenerar Mina?',
+  regenerateMineMessage: '¿Estás seguro? Esto creará una nueva mina. Conservarás todo tu progreso, equipo y recursos.',
 
   // Settings Modal
   settingsTitle: 'Ajustes',
@@ -62,6 +66,8 @@ export const es: TranslationSchema = {
   testingModeDesc: 'Todas las mejoras de equipo son gratuitas.',
   resetGame: 'Reiniciar Juego',
   resetGameDesc: 'Esto eliminará permanentemente todo tu progreso.',
+  regenerateMine: 'Regenerar Mina',
+  regenerateMineDesc: 'Reinicia toda la cuadrícula de la mina. Conservas todas las mejoras y recursos.',
   language: 'Idioma',
   languageDesc: 'Elige el idioma del juego.',
   
