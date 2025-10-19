@@ -36,7 +36,11 @@ export const MathModal: React.FC<MathModalProps> = ({ problem, onSolve, dynamite
   const [wrongHint, setWrongHint] = useState<number | null>(null);
 
   useEffect(() => {
-    inputRef.current?.focus();
+    // Prevent auto-focus on mobile to avoid the keyboard covering the UI.
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    if (!isMobile) {
+      inputRef.current?.focus();
+    }
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
