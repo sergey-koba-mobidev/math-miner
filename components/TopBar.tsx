@@ -64,14 +64,14 @@ export const TopBar: React.FC<TopBarProps> = ({ resources, accessibleDepth, hero
                     <DepthIcon />
                     <span className="font-bold text-lg text-stone-300">{accessibleDepth}m</span>
                 </div>
-                <button onClick={onShopOpen} className="flex items-center gap-2 bg-yellow-600/50 hover:bg-yellow-500/50 p-2 rounded-lg transition-colors" title="Open Shop">
-                    <ShopIcon />
-                </button>
             </div>
         </div>
 
         {/* Right Buttons */}
         <div className="justify-self-end flex items-center gap-2">
+            <button onClick={onShopOpen} className="flex items-center gap-2 bg-yellow-600/50 hover:bg-yellow-500/50 p-2 rounded-lg transition-colors" title="Open Shop">
+                <ShopIcon />
+            </button>
             <button onClick={onBestiaryOpen} className="flex items-center gap-2 bg-amber-600/50 hover:bg-amber-500/50 p-2 rounded-lg transition-colors" title="Open Bestiary">
                 <BestiaryIcon />
             </button>

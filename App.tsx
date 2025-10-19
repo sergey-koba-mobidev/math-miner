@@ -570,7 +570,8 @@ const App: React.FC = () => {
         if (mobDisplayElement && Object.keys(droppedLoot).length > 0) {
             const startRect = mobDisplayElement.getBoundingClientRect();
             const newAnimations: LootAnimation[] = [];
-            for (const [resource, amount] of Object.entries(droppedLoot)) {
+            // FIX: Refactored to a forEach loop to avoid potential destructuring issues with some TypeScript compilers/configurations.
+            Object.entries(droppedLoot).forEach(([resource, amount]) => {
                 if (amount && amount > 0) {
                     const endElement = document.querySelector(`[data-resource-icon="${resource}"]`);
                     if (endElement) {
@@ -584,7 +585,7 @@ const App: React.FC = () => {
                         });
                     }
                 }
-            }
+            });
             if (newAnimations.length > 0) {
               setLootAnimations(prev => [...prev, ...newAnimations]);
             }
