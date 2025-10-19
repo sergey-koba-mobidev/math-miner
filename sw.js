@@ -31,6 +31,10 @@ const urlsToCache = [
   './data/equipment.ts',
   './data/mobs.ts',
   './data/mobSprites.ts',
+  './hooks/useGameLoop.ts',
+  './hooks/useGameState.ts',
+  './hooks/useModalState.ts',
+  './hooks/useCombatSystem.ts',
   'https://cdn.tailwindcss.com/',
   'https://aistudiocdn.com/react@^19.2.0',
   'https://aistudiocdn.com/react-dom@^19.2.0/'

@@ -11,7 +11,7 @@ import { RewardModal } from './components/modals/RewardModal';
 import { ConfirmationModal } from './components/modals/ConfirmationModal';
 import { TutorialModal } from './components/modals/TutorialModal';
 import { SettingsModal } from './components/modals/SettingsModal';
-import { useGame } from './hooks/useGame';
+import { useGameLoop } from './hooks/useGameLoop';
 import { t } from './services/translation';
 
 const App: React.FC = () => {
@@ -44,6 +44,8 @@ const App: React.FC = () => {
     isTutorialOpen,
     isResetConfirmationOpen,
     isRegenerateConfirmationOpen,
+    superpowerCooldown,
+    superpowerTurnsLeft,
     // Handlers
     handleLootAnimationEnd,
     setIsShopOpen,
@@ -63,7 +65,8 @@ const App: React.FC = () => {
     handleDig,
     setIsRegenerateConfirmationOpen,
     handleRegenerateMine,
-  } = useGame();
+    handleTriggerSuperpower,
+  } = useGameLoop();
 
   return (
     <div className="h-screen w-screen flex flex-col font-mono bg-[#3a2d27]">
@@ -83,6 +86,9 @@ const App: React.FC = () => {
         mobAnimation={mobAnimation}
         blinkingResources={blinkingResources}
         language={language}
+        onTriggerSuperpower={handleTriggerSuperpower}
+        superpowerCooldown={superpowerCooldown}
+        superpowerTurnsLeft={superpowerTurnsLeft}
       />
       <Mine 
         ref={mineContainerRef}
@@ -97,6 +103,8 @@ const App: React.FC = () => {
           onSolve={handleSolveProblem}
           dynamiteCount={resources.DYNAMITE}
           language={language}
+          title={modalState.type === 'superpower' ? t('superpowerModalTitle', language) : t('solveToDig', language)}
+          allowDynamite={modalState.type !== 'superpower'}
         />
       )}
       {rewardMessage && (

@@ -19,9 +19,16 @@ interface TopBarProps {
   mobAnimation: AnimationState;
   blinkingResources: Partial<Record<ResourceType, boolean>>;
   language: Language;
+  onTriggerSuperpower: () => void;
+  superpowerCooldown: number;
+  superpowerTurnsLeft: number;
 }
 
-export const TopBar: React.FC<TopBarProps> = ({ resources, accessibleDepth, hero, mob, floatingTexts, onShopOpen, onBestiaryOpen, onSettingsOpen, equipmentLevels, heroAnimation, mobAnimation, blinkingResources, language }) => {
+export const TopBar: React.FC<TopBarProps> = ({ 
+  resources, accessibleDepth, hero, mob, floatingTexts, onShopOpen, onBestiaryOpen, onSettingsOpen, 
+  equipmentLevels, heroAnimation, mobAnimation, blinkingResources, language, 
+  onTriggerSuperpower, superpowerCooldown, superpowerTurnsLeft
+}) => {
   return (
     <div className="w-full z-10 bg-stone-800/90 backdrop-blur-sm shadow-lg p-2">
       <div className="w-full grid grid-cols-[1fr_auto_1fr] items-start gap-4">
@@ -38,6 +45,9 @@ export const TopBar: React.FC<TopBarProps> = ({ resources, accessibleDepth, hero
                     equipmentLevels={equipmentLevels}
                     animationState={heroAnimation}
                     language={language}
+                    onTriggerSuperpower={onTriggerSuperpower}
+                    superpowerCooldown={superpowerCooldown}
+                    isSuperpowerActive={superpowerTurnsLeft > 0}
                 />
                 <span className="text-2xl font-bold text-stone-400 animate-pulse">{t('vs', language)}</span>
                 <div data-mob-display="true">

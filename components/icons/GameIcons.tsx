@@ -12,6 +12,7 @@ import {
   drawShopIcon,
   drawBestiaryIcon,
   drawSettingsIcon,
+  drawSuperpowerIcon,
 } from '../../services/drawing/iconDrawers';
 
 const DirtIcon = ({ className }: { className?: string }) => <CanvasIcon draw={drawDirtIcon} className={className} />;
@@ -25,6 +26,7 @@ export const DepthIcon = () => <CanvasIcon draw={drawDepthIcon} className="h-8 w
 export const ShopIcon = () => <CanvasIcon draw={drawShopIcon} className="h-8 w-8" />;
 export const BestiaryIcon = () => <CanvasIcon draw={drawBestiaryIcon} className="h-8 w-8" />;
 export const SettingsIcon = () => <CanvasIcon draw={drawSettingsIcon} className="h-8 w-8" />;
+export const SuperpowerIcon = ({ className }: { className?: string }) => <CanvasIcon draw={drawSuperpowerIcon} className={className} />;
 
 export const RESOURCE_ICONS: Record<ResourceType, React.ReactElement> = {
   DIRT: <DirtIcon />,

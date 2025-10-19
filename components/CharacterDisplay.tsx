@@ -1,7 +1,9 @@
+// FIX: Removed extraneous file markers that were causing syntax errors.
 import React, { useRef, useEffect } from 'react';
 import type { CharacterStats, FloatingText, EquipmentLevels, AnimationState } from '../types';
 import { drawCharacter } from '../services/drawing/characterDrawers';
 import { Language, t } from '../services/translation';
+import { SuperpowerIcon } from './icons/GameIcons';
 
 interface CharacterDisplayProps {
   stats: CharacterStats;
@@ -9,6 +11,9 @@ interface CharacterDisplayProps {
   equipmentLevels?: EquipmentLevels;
   animationState?: AnimationState;
   language: Language;
+  onTriggerSuperpower?: () => void;
+  superpowerCooldown?: number;
+  isSuperpowerActive?: boolean;
 }
 
 const getTextClasses = (type: FloatingText['type']) => {
@@ -21,13 +26,17 @@ const getTextClasses = (type: FloatingText['type']) => {
     }
 };
 
-export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({ stats, floatingTexts, equipmentLevels, animationState = 'idle', language }) => {
+export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({ 
+  stats, floatingTexts, equipmentLevels, animationState = 'idle', language,
+  onTriggerSuperpower, superpowerCooldown = 0, isSuperpowerActive = false
+}) => {
   const hpPercentage = (stats.hp / stats.maxHp) * 100;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const frameCounter = useRef(0);
   
-  const isHero = stats.name === t('hero', language);
+  const isHero = !!equipmentLevels;
+  const isSuperpowerReady = superpowerCooldown === 0;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -64,13 +73,32 @@ export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({ stats, float
     missed: 'animate-miss',
   };
 
+  const superpowerGlowClass = isSuperpowerActive ? 'animate-superpower-glow' : '';
+
   return (
-    <div className={`relative w-48 h-[170px] bg-stone-900/60 p-2 rounded-lg border border-stone-700 shadow-md flex flex-col items-center justify-between transition-transform duration-200 ${animationClasses[animationState]}`}>
+    <div className={`relative w-48 h-[170px] bg-stone-900/60 p-2 rounded-lg border border-stone-700 shadow-md flex flex-col items-center justify-between transition-transform duration-200 ${animationClasses[animationState]} ${superpowerGlowClass}`}>
       {/* Top section: Name and Sprite */}
       <div className="w-full flex flex-col items-center">
-        <span className="h-6 text-center font-bold text-yellow-100 truncate w-full px-1" style={{ textShadow: '1px 1px 2px black' }}>
-          {stats.name}
-        </span>
+        <div className="h-6 flex items-center justify-center gap-1">
+            <span className="text-center font-bold text-yellow-100 truncate w-full px-1" style={{ textShadow: '1px 1px 2px black' }}>
+            {stats.name}
+            </span>
+            {isHero && onTriggerSuperpower && (
+                <button
+                    onClick={onTriggerSuperpower}
+                    disabled={superpowerCooldown > 0}
+                    className={`relative disabled:opacity-50 disabled:cursor-not-allowed group ${isSuperpowerReady ? 'animate-superpower-pulse' : ''}`}
+                    title={superpowerCooldown > 0 ? t('superpowerCooldown', language, { turns: superpowerCooldown }) : t('superpowerTitle', language)}
+                >
+                    <SuperpowerIcon className="w-6 h-6" />
+                    {superpowerCooldown > 0 && (
+                        <span className="absolute -top-1 -right-1 bg-stone-900 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center border border-stone-600">
+                            {superpowerCooldown}
+                        </span>
+                    )}
+                </button>
+            )}
+        </div>
         <div className="h-[72px] w-full flex items-end justify-center">
             <canvas
               ref={canvasRef}
@@ -116,6 +144,36 @@ export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({ stats, float
         </span>
       ))}
       <style>{`
+        /* Superpower Ready Pulse Animation */
+        @keyframes superpower-pulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 3px #fef08a);
+            }
+            50% {
+                transform: scale(1.2);
+                filter: drop-shadow(0 0 8px #fde047);
+            }
+        }
+        .animate-superpower-pulse {
+            animation: superpower-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Superpower Active Glow Animation */
+        @keyframes superpower-glow {
+            0%, 100% {
+                box-shadow: 0 0 5px #fff, 0 0 10px #ffec8b, 0 0 15px #ffd700, 0 0 20px #ffd700;
+                border-color: #ffd700;
+            }
+            50% {
+                box-shadow: 0 0 10px #fff, 0 0 20px #ffec8b, 0 0 30px #ffd700, 0 0 40px #ffd700;
+                border-color: #ffec8b;
+            }
+        }
+        .animate-superpower-glow {
+            animation: superpower-glow 2s ease-in-out infinite;
+        }
+
         /* Combat Text Animation */
         @keyframes float-up {
           0% {

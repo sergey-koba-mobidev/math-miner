@@ -1,4 +1,3 @@
-
 export const en = {
   // General UI
   shop: 'Shop',
@@ -37,6 +36,12 @@ export const en = {
   pickAnswer: 'Or pick an answer:',
   check: 'Check',
   dynamiteTitle: 'Use Dynamite ({dynamiteCount} left)',
+  superpowerModalTitle: 'Unleash Your Power!',
+
+  // Superpower
+  superpowerTitle: 'Focus Power',
+  superpowerCooldown: 'On Cooldown ({turns} turns)',
+  superpowerActivate: 'POWER UP!',
 
   // Reward Modals
   treasureFoundTitle: 'Treasure Found!',

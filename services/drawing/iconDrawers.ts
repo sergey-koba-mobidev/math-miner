@@ -142,3 +142,40 @@ export const drawSettingsIcon = (ctx: CanvasRenderingContext2D, frame: number, s
     ctx.fill();
     ctx.restore();
 };
+
+export const drawSuperpowerIcon = (ctx: CanvasRenderingContext2D, frame: number, size: number) => {
+    const glow = 0.7 + Math.sin(frame * 0.2) * 0.3;
+    ctx.shadowColor = `hsla(50, 100%, 70%, ${glow})`;
+    ctx.shadowBlur = size * 0.4;
+    
+    const grad = ctx.createRadialGradient(size/2, size/2, size*0.1, size/2, size/2, size*0.5);
+    grad.addColorStop(0, '#ffff8d');
+    grad.addColorStop(1, '#fbc02d');
+    ctx.fillStyle = grad;
+
+    ctx.beginPath();
+    let rotation = Math.PI / 2 * 3;
+    let x = size / 2;
+    let y = size / 2;
+    let step = Math.PI / 5;
+    let outerRadius = size * 0.45;
+    let innerRadius = size * 0.2;
+
+    ctx.moveTo(x, y - outerRadius)
+    for (let i = 0; i < 5; i++) {
+        x = size / 2 + Math.cos(rotation) * outerRadius;
+        y = size / 2 + Math.sin(rotation) * outerRadius;
+        ctx.lineTo(x, y)
+        rotation += step
+
+        x = size / 2 + Math.cos(rotation) * innerRadius;
+        y = size / 2 + Math.sin(rotation) * innerRadius;
+        ctx.lineTo(x, y)
+        rotation += step
+    }
+    ctx.lineTo(size / 2, size / 2 - outerRadius);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.shadowBlur = 0;
+};

@@ -1,4 +1,3 @@
-
 import type { TranslationSchema } from './schema';
 
 export const pl: TranslationSchema = {
@@ -39,6 +38,12 @@ export const pl: TranslationSchema = {
   pickAnswer: 'Lub wybierz odpowiedź:',
   check: 'Sprawdź',
   dynamiteTitle: 'Użyj dynamitu (zostało {dynamiteCount})',
+  superpowerModalTitle: 'Uwolnij swoją Moc!',
+
+  // Superpower
+  superpowerTitle: 'Skupienie Mocy',
+  superpowerCooldown: 'Odnowienie ({turns} tur)',
+  superpowerActivate: 'WZROST MOCY!',
 
   // Reward Modals
   treasureFoundTitle: 'Znaleziono skarb!',

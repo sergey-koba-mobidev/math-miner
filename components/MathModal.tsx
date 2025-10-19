@@ -8,9 +8,11 @@ interface MathModalProps {
   onSolve: (isCorrect: boolean, useDynamite: boolean) => void;
   dynamiteCount: number;
   language: Language;
+  title: string;
+  allowDynamite: boolean;
 }
 
-export const MathModal: React.FC<MathModalProps> = ({ problem, onSolve, dynamiteCount, language }) => {
+export const MathModal: React.FC<MathModalProps> = ({ problem, onSolve, dynamiteCount, language, title, allowDynamite }) => {
   const [answer, setAnswer] = useState('');
   const [isWrong, setIsWrong] = useState(false);
   const [useDynamite, setUseDynamite] = useState(false);
@@ -73,13 +75,13 @@ export const MathModal: React.FC<MathModalProps> = ({ problem, onSolve, dynamite
         <div className="flex justify-between items-start">
             <div className="flex-grow">
                 <h2 className="text-3xl font-bold text-center text-yellow-300 mb-6">
-                {t('solveToDig', language)}
+                {title}
                 </h2>
                 <p className="text-center text-5xl font-bold mb-8 text-white tabular-nums">
                 {problem.question}
                 </p>
             </div>
-            {dynamiteCount > 0 && (
+            {allowDynamite && dynamiteCount > 0 && (
                  <button
                     onClick={() => setUseDynamite(d => !d)}
                     disabled={dynamiteCount <= 0}
