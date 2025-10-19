@@ -1,12 +1,14 @@
 import React, { useRef, useEffect } from 'react';
 import type { CharacterStats, FloatingText, EquipmentLevels, AnimationState } from '../types';
-import { drawCharacter } from '../constants';
+import { drawCharacter } from '../services/drawing/characterDrawers';
+import { Language, t } from '../services/translation';
 
 interface CharacterDisplayProps {
   stats: CharacterStats;
   floatingTexts: FloatingText[];
   equipmentLevels?: EquipmentLevels;
   animationState?: AnimationState;
+  language: Language;
 }
 
 const getTextClasses = (type: FloatingText['type']) => {
@@ -19,13 +21,13 @@ const getTextClasses = (type: FloatingText['type']) => {
     }
 };
 
-export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({ stats, floatingTexts, equipmentLevels, animationState = 'idle' }) => {
+export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({ stats, floatingTexts, equipmentLevels, animationState = 'idle', language }) => {
   const hpPercentage = (stats.hp / stats.maxHp) * 100;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const frameCounter = useRef(0);
   
-  const isHero = stats.name === 'Hero';
+  const isHero = stats.name === t('hero', language);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -53,7 +55,7 @@ export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({ stats, float
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [stats, isHero, equipmentLevels]);
+  }, [stats, isHero, equipmentLevels, language]);
 
   const animationClasses: Record<AnimationState, string> = {
     idle: '',
@@ -96,10 +98,10 @@ export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({ stats, float
           </span>
         </div>
         <div className="flex justify-around flex-wrap text-xs mt-1 text-stone-300 gap-x-2">
-          <span>ATK: {stats.attack}</span>
-          <span>DEF: {stats.defense}</span>
-          <span>EVA: {stats.evasion}%</span>
-          <span>CRIT: {stats.critChance}%</span>
+          <span>{t('atk', language)}: {stats.attack}</span>
+          <span>{t('def', language)}: {stats.defense}</span>
+          <span>{t('eva', language)}: {stats.evasion}%</span>
+          <span>{t('crit', language)}: {stats.critChance}%</span>
         </div>
       </div>
 

@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { Problem } from '../types';
-import { DynamiteIcon } from '../constants';
+import { DynamiteIcon } from './icons/GameIcons';
+import { Language, t } from '../services/translation';
 
 interface MathModalProps {
   problem: Problem;
   onSolve: (isCorrect: boolean, useDynamite: boolean) => void;
   dynamiteCount: number;
+  language: Language;
 }
 
-export const MathModal: React.FC<MathModalProps> = ({ problem, onSolve, dynamiteCount }) => {
+export const MathModal: React.FC<MathModalProps> = ({ problem, onSolve, dynamiteCount, language }) => {
   const [answer, setAnswer] = useState('');
   const [isWrong, setIsWrong] = useState(false);
   const [useDynamite, setUseDynamite] = useState(false);
@@ -71,7 +73,7 @@ export const MathModal: React.FC<MathModalProps> = ({ problem, onSolve, dynamite
         <div className="flex justify-between items-start">
             <div className="flex-grow">
                 <h2 className="text-3xl font-bold text-center text-yellow-300 mb-6">
-                Solve to Dig!
+                {t('solveToDig', language)}
                 </h2>
                 <p className="text-center text-5xl font-bold mb-8 text-white tabular-nums">
                 {problem.question}
@@ -82,7 +84,7 @@ export const MathModal: React.FC<MathModalProps> = ({ problem, onSolve, dynamite
                     onClick={() => setUseDynamite(d => !d)}
                     disabled={dynamiteCount <= 0}
                     className={`relative p-2 rounded-full transition-all ${dynamiteActiveClasses} ${dynamiteCount > 0 ? 'bg-stone-700 hover:bg-stone-600' : 'bg-stone-900 opacity-50 cursor-not-allowed'}`}
-                    title={`Use Dynamite (${dynamiteCount} left)`}
+                    title={t('dynamiteTitle', language, { dynamiteCount })}
                 >
                     <DynamiteIcon className="w-10 h-10" />
                     <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
@@ -102,7 +104,7 @@ export const MathModal: React.FC<MathModalProps> = ({ problem, onSolve, dynamite
           
           {currentHints.length > 0 && (
             <div className="mt-6 text-center">
-              <p className="text-stone-400 mb-3 text-sm">Or pick an answer:</p>
+              <p className="text-stone-400 mb-3 text-sm">{t('pickAnswer', language)}</p>
               <div className="flex justify-center gap-4">
                 {currentHints.map((hint, index) => (
                   <button
@@ -128,13 +130,13 @@ export const MathModal: React.FC<MathModalProps> = ({ problem, onSolve, dynamite
                 onClick={() => onSolve(false, false)}
                 className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-md transition-colors"
             >
-                Cancel
+                {t('cancel', language)}
             </button>
             <button
                 type="submit"
                 className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-md transition-colors"
             >
-                Check
+                {t('check', language)}
             </button>
           </div>
         </form>

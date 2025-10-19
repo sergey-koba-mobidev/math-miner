@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import type { TileData } from '../types';
-import { TILE_SIZE_PX, drawTile, getTileBaseColor } from '../constants';
+import { TILE_SIZE_PX } from '../constants';
+import { drawTile, getTileBaseColor } from '../services/drawing/tileDrawers';
 import { TileType } from '../types';
 
 interface MineProps {

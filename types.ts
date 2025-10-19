@@ -46,8 +46,9 @@ export interface CharacterStats {
   spriteColoration?: { hueRotate: number };
 }
 
-export interface MobBaseStats extends Omit<CharacterStats, 'hp'> {
-  lore: string;
+export interface MobBaseStats extends Omit<CharacterStats, 'hp' | 'name'> {
+  nameKey: string;
+  loreKey: string;
   spriteKey: string;
   spriteColoration: { hueRotate: number };
 }
@@ -89,7 +90,7 @@ export interface EquipmentStats {
 
 export interface EquipmentLevel {
   level: number;
-  name: string;
+  nameKey: string;
   stats: EquipmentStats;
   cost: Partial<Record<ResourceType, number>>;
 }
