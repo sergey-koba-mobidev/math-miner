@@ -346,7 +346,7 @@ export const Mine = React.forwardRef<HTMLDivElement, MineProps>(({ grid, onDig, 
   };
 
   return (
-    <div ref={ref} className="flex-grow overflow-y-auto flex justify-center" style={{ cursor: 'pointer' }}>
+    <div ref={ref} className="flex-grow overflow-auto flex justify-center" style={{ cursor: 'pointer' }}>
       <div style={{ position: 'relative', width: `${mineWidth}px`, height: `${mineHeight}px` }}>
         <canvas
           ref={canvasRef}

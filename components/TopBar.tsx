@@ -31,12 +31,12 @@ export const TopBar: React.FC<TopBarProps> = ({
 }) => {
   return (
     <div className="w-full z-10 bg-stone-800/90 backdrop-blur-sm shadow-lg p-2">
-      <div className="w-full grid grid-cols-[1fr_auto_1fr] items-start gap-4">
-        {/* Left Spacer - This empty div ensures the center column is truly centered */}
-        <div></div>
+      <div className="w-full grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-y-2 md:gap-4 md:items-start">
+        {/* Empty spacer for left col on desktop */}
+        <div className="hidden md:block"></div>
 
         {/* Center Content */}
-        <div className="flex flex-col items-center gap-2">
+        <div className="md:col-start-2 flex flex-col items-center gap-2 w-full">
             {/* Combatants Row */}
             <div className="flex justify-around items-center w-full max-w-lg">
                 <CharacterDisplay 
@@ -49,7 +49,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                     superpowerCooldown={superpowerCooldown}
                     isSuperpowerActive={superpowerTurnsLeft > 0}
                 />
-                <span className="text-2xl font-bold text-stone-400 animate-pulse">{t('vs', language)}</span>
+                <span className="text-xl sm:text-2xl font-bold text-stone-400 animate-pulse mx-1 sm:mx-0">{t('vs', language)}</span>
                 <div data-mob-display="true">
                     <CharacterDisplay 
                         stats={mob} 
@@ -68,33 +68,33 @@ export const TopBar: React.FC<TopBarProps> = ({
                         <div 
                             key={key}
                             data-resource-icon={key}
-                            className={`flex items-center gap-2 bg-stone-900/50 p-2 rounded-lg transition-all ${isBlinking ? 'animate-blink' : ''}`}
+                            className={`flex items-center gap-1 sm:gap-2 bg-stone-900/50 p-1 sm:p-2 rounded-lg transition-all ${isBlinking ? 'animate-blink' : ''}`}
                         >
-                            {React.cloneElement(RESOURCE_ICONS[key] as React.ReactElement<{ className?: string }>, { className: 'w-8 h-8' })}
-                            <span className="font-bold text-lg text-yellow-100">{resources[key]}</span>
+                            {React.cloneElement(RESOURCE_ICONS[key] as React.ReactElement<{ className?: string }>, { className: 'w-6 h-6 sm:w-8 sm:h-8' })}
+                            <span className="font-bold text-base sm:text-lg text-yellow-100">{resources[key]}</span>
                         </div>
                     );
                 })}
-                <div className="flex items-center gap-2 bg-stone-900/50 p-2 rounded-lg" title={t('depthTitle', language)}>
+                <div className="flex items-center gap-1 sm:gap-2 bg-stone-900/50 p-1 sm:p-2 rounded-lg" title={t('depthTitle', language)}>
                     <DepthIcon />
-                    <span className="font-bold text-lg text-stone-300">{accessibleDepth}m</span>
+                    <span className="font-bold text-base sm:text-lg text-stone-300">{accessibleDepth}m</span>
                 </div>
             </div>
         </div>
 
         {/* Right Buttons */}
-        <div className="justify-self-end flex items-center gap-2">
+        <div className="justify-self-center md:col-start-3 md:justify-self-end md:self-start flex items-center gap-2">
             <button onClick={onShopOpen} className="flex items-center gap-2 bg-yellow-600/50 hover:bg-yellow-500/50 px-3 py-2 rounded-lg transition-colors font-bold text-sm" title={t('shop', language)}>
                 <ShopIcon />
-                <span>{t('shop', language)}</span>
+                <span className="hidden sm:inline">{t('shop', language)}</span>
             </button>
             <button onClick={onBestiaryOpen} className="flex items-center gap-2 bg-amber-600/50 hover:bg-amber-500/50 px-3 py-2 rounded-lg transition-colors font-bold text-sm" title={t('bestiary', language)}>
                 <BestiaryIcon />
-                <span>{t('bestiary', language)}</span>
+                <span className="hidden sm:inline">{t('bestiary', language)}</span>
             </button>
             <button onClick={onSettingsOpen} className="flex items-center gap-2 bg-stone-600/50 hover:bg-stone-500/50 px-3 py-2 rounded-lg transition-colors font-bold text-sm" title={t('settings', language)}>
                 <SettingsIcon />
-                <span>{t('settings', language)}</span>
+                <span className="hidden sm:inline">{t('settings', language)}</span>
             </button>
         </div>
       </div>

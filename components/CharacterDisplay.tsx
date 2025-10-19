@@ -18,10 +18,10 @@ interface CharacterDisplayProps {
 
 const getTextClasses = (type: FloatingText['type']) => {
     switch (type) {
-        case 'damage': return 'text-white font-bold text-lg';
-        case 'crit': return 'text-red-500 font-extrabold text-2xl scale-125';
-        case 'miss': return 'text-gray-400 italic text-lg';
-        case 'loot': return 'text-yellow-300 font-bold text-lg';
+        case 'damage': return 'text-white font-bold text-base sm:text-lg';
+        case 'crit': return 'text-red-500 font-extrabold text-lg sm:text-2xl scale-110 sm:scale-125';
+        case 'miss': return 'text-gray-400 italic text-base sm:text-lg';
+        case 'loot': return 'text-yellow-300 font-bold text-base sm:text-lg';
         default: return 'text-white';
     }
 };
@@ -76,11 +76,11 @@ export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({
   const superpowerGlowClass = isSuperpowerActive ? 'animate-superpower-glow' : '';
 
   return (
-    <div className={`relative w-48 h-[170px] bg-stone-900/60 p-2 rounded-lg border border-stone-700 shadow-md flex flex-col items-center justify-between transition-transform duration-200 ${animationClasses[animationState]} ${superpowerGlowClass}`}>
+    <div className={`relative w-36 sm:w-48 h-[160px] sm:h-[170px] bg-stone-900/60 p-1 sm:p-2 rounded-lg border border-stone-700 shadow-md flex flex-col items-center justify-between transition-all duration-200 ${animationClasses[animationState]} ${superpowerGlowClass}`}>
       {/* Top section: Name and Sprite */}
       <div className="w-full flex flex-col items-center">
         <div className="h-6 flex items-center justify-center gap-1">
-            <span className="text-center font-bold text-yellow-100 truncate w-full px-1" style={{ textShadow: '1px 1px 2px black' }}>
+            <span className="text-center font-bold text-sm sm:text-base text-yellow-100 truncate w-full px-1" style={{ textShadow: '1px 1px 2px black' }}>
             {stats.name}
             </span>
             {isHero && onTriggerSuperpower && (
@@ -90,24 +90,24 @@ export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({
                     className={`relative disabled:opacity-50 disabled:cursor-not-allowed group ${isSuperpowerReady ? 'animate-superpower-pulse' : ''}`}
                     title={superpowerCooldown > 0 ? t('superpowerCooldown', language, { turns: superpowerCooldown }) : t('superpowerTitle', language)}
                 >
-                    <SuperpowerIcon className="w-6 h-6" />
+                    <SuperpowerIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                     {superpowerCooldown > 0 && (
-                        <span className="absolute -top-1 -right-1 bg-stone-900 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center border border-stone-600">
+                        <span className="absolute -top-1 -right-1 bg-stone-900 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center border border-stone-600">
                             {superpowerCooldown}
                         </span>
                     )}
                 </button>
             )}
         </div>
-        <div className="h-[72px] w-full flex items-end justify-center">
+        <div className="h-[64px] sm:h-[72px] w-full flex items-end justify-center">
             <canvas
               ref={canvasRef}
               width="64"
               height="64"
               style={{
                 imageRendering: 'pixelated',
-                width: isHero ? '72px' : '80px',
-                height: isHero ? '72px' : '80px',
+                width: isHero ? '68px' : '72px',
+                height: isHero ? '68px' : '72px',
                 transformOrigin: 'bottom',
               }}
             ></canvas>
@@ -116,16 +116,16 @@ export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({
       
       {/* Bottom section: HP and Stats */}
       <div className="w-full">
-        <div className="relative w-full bg-red-800 rounded-full h-4 my-1 border border-black/50 overflow-hidden">
+        <div className="relative w-full bg-red-800 rounded-full h-3 sm:h-4 my-1 border border-black/50 overflow-hidden">
           <div
             className="absolute top-0 left-0 h-full bg-green-500 rounded-full transition-all duration-500 ease-linear"
             style={{ width: `${hpPercentage}%` }}
           ></div>
-          <span className="absolute w-full text-center text-xs font-bold text-white" style={{ textShadow: '1px 1px 2px black' }}>
+          <span className="absolute w-full text-center text-[10px] sm:text-xs font-bold text-white" style={{ textShadow: '1px 1px 2px black' }}>
             {stats.hp} / {stats.maxHp}
           </span>
         </div>
-        <div className="flex justify-around flex-wrap text-xs mt-1 text-stone-300 gap-x-2">
+        <div className="flex justify-around flex-wrap text-[10px] sm:text-xs mt-1 text-stone-300 gap-x-1 sm:gap-x-2">
           <span>{t('atk', language)}: {stats.attack}</span>
           <span>{t('def', language)}: {stats.defense}</span>
           <span>{t('eva', language)}: {stats.evasion}%</span>
@@ -137,7 +137,7 @@ export const CharacterDisplay: React.FC<CharacterDisplayProps> = ({
       {floatingTexts.map(text => (
         <span 
           key={text.id} 
-          className={`floating-text absolute top-12 left-1/2 whitespace-nowrap ${getTextClasses(text.type)}`}
+          className={`floating-text absolute top-10 sm:top-12 left-1/2 whitespace-nowrap ${getTextClasses(text.type)}`}
           style={{ textShadow: '2px 2px 3px rgba(0,0,0,0.7)'}}
         >
           {text.text}

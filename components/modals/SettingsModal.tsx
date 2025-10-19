@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Language, t } from '../../services/translation';
 
 interface SettingsModalProps {
@@ -10,60 +10,84 @@ interface SettingsModalProps {
   onResetGame: () => void;
   onRegenerateMine: () => void;
   mathDifficulty: number;
-  onDifficultyChange: (level: number) => void;
+  onDifficultyChange: (value: number) => void;
   resourceMultiplier: number;
-  onResourceMultiplierChange: (level: number) => void;
+  onResourceMultiplierChange: (value: number) => void;
   onOpenTutorial: () => void;
   language: Language;
   onLanguageChange: (lang: Language) => void;
 }
 
-export const SettingsModal: React.FC<SettingsModalProps> = ({ 
-    isOpen, onClose, isTestingMode, onToggleTestingMode, onResetGame, onRegenerateMine,
-    mathDifficulty, onDifficultyChange, resourceMultiplier, onResourceMultiplierChange,
-    onOpenTutorial, language, onLanguageChange
+const DifficultySlider: React.FC<{ label: string, value: number, onChange: (value: number) => void, min: number, max: number, step: number, labels?: string[] }> = 
+({ label, value, onChange, min, max, step, labels }) => (
+    <div className="flex flex-col">
+        <label className="text-stone-300 text-sm mb-1">{label}</label>
+        <input
+            type="range"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={(e) => onChange(Number(e.target.value))}
+            className="w-full"
+        />
+        {labels && <div className="flex justify-between text-xs text-stone-400 mt-1">
+            {labels.map((l, i) => <span key={i}>{l}</span>)}
+        </div>}
+    </div>
+);
+
+
+export const SettingsModal: React.FC<SettingsModalProps> = ({
+  isOpen, onClose, isTestingMode, onToggleTestingMode, onResetGame, onRegenerateMine,
+  mathDifficulty, onDifficultyChange, resourceMultiplier, onResourceMultiplierChange,
+  onOpenTutorial, language, onLanguageChange
 }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      modalRef.current?.focus();
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
-  const toggleBgClass = isTestingMode ? 'bg-green-500' : 'bg-gray-600';
-  const toggleIndicatorClass = isTestingMode ? 'translate-x-6' : 'translate-x-1';
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-20" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-30" onClick={onClose}>
       <div 
-        className="bg-stone-800 p-8 rounded-lg shadow-2xl border border-stone-600 w-full max-w-md mx-4"
+        ref={modalRef}
+        tabIndex={-1}
+        className="bg-stone-800 p-4 rounded-lg shadow-2xl border border-stone-500 w-full max-w-lg mx-4 flex flex-col max-h-[90vh]"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-4 flex-shrink-0">
           <h2 className="text-3xl font-bold text-stone-300">{t('settingsTitle', language)}</h2>
           <button onClick={onClose} className="text-3xl text-stone-400 hover:text-white">&times;</button>
         </div>
         
-        <div className="space-y-4">
-            <div className="bg-stone-900/50 p-4 rounded-lg">
-                <div className="flex items-center justify-between">
+        <div className="flex-grow overflow-y-auto pr-2 text-stone-300 space-y-6">
+            <section>
+                <div className="flex justify-between items-center">
                     <div>
-                    <p className="text-white">{t('gameGuide', language)}</p>
-                    <p className="text-sm text-stone-400">{t('gameGuideDesc', language)}</p>
+                        <h3 className="font-bold text-lg">{t('gameGuide', language)}</h3>
+                        <p className="text-sm text-stone-400">{t('gameGuideDesc', language)}</p>
                     </div>
-                    <button
-                    onClick={onOpenTutorial}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-800 focus:ring-blue-500"
-                    >
-                    {t('tutorial', language)}
+                    <button onClick={onOpenTutorial} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors">
+                        {t('tutorial', language)}
                     </button>
                 </div>
-            </div>
+            </section>
 
-            <div className="bg-stone-900/50 p-4 rounded-lg">
-                 <div className="flex items-center justify-between">
-                    <div>
-                        <h3 className="text-lg font-semibold text-white">{t('language', language)}</h3>
-                        <p className="text-sm text-stone-400">{t('languageDesc', language)}</p>
-                    </div>
+            <section className="border-t border-stone-700 pt-4">
+                 <div className="mb-4">
+                    <label htmlFor="language-select" className="block font-bold text-lg mb-1">{t('language', language)}</label>
+                    <p className="text-sm text-stone-400 mb-2">{t('languageDesc', language)}</p>
                     <select
+                        id="language-select"
                         value={language}
                         onChange={(e) => onLanguageChange(e.target.value as Language)}
-                        className="bg-stone-700 text-white p-2 rounded-md border border-stone-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                        className="w-full p-2 rounded bg-stone-900 border border-stone-600 text-white"
                     >
                         <option value="en">English</option>
                         <option value="de">Deutsch</option>
@@ -72,93 +96,71 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                         <option value="ua">Українська</option>
                     </select>
                 </div>
-            </div>
 
-            <div className="bg-stone-900/50 p-4 rounded-lg">
-                <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-semibold text-white">{t('mathDifficulty', language)}</h3>
-                    <span className="font-bold text-yellow-300 text-lg">{mathDifficulty}</span>
+                <div className="mb-4">
+                    <h3 className="font-bold text-lg">{t('mathDifficulty', language)}</h3>
+                    <p className="text-sm text-stone-400 mb-2">{t('mathDifficultyDesc', language)}</p>
+                    <DifficultySlider 
+                        label=""
+                        value={mathDifficulty}
+                        onChange={onDifficultyChange}
+                        min={1} max={5} step={1}
+                        labels={[t('easy', language), '','','', t('hard', language)]}
+                    />
                 </div>
-                <p className="text-sm text-stone-400 mb-3">{t('mathDifficultyDesc', language)}</p>
-                <input
-                    type="range"
-                    min="1"
-                    max="5"
-                    step="1"
-                    value={mathDifficulty}
-                    onChange={(e) => onDifficultyChange(Number(e.target.value))}
-                    className="w-full h-2 bg-stone-700 rounded-lg appearance-none cursor-pointer accent-yellow-500"
-                />
-                <div className="flex justify-between text-xs text-stone-500 mt-1 px-1">
-                    <span>{t('easy', language)}</span>
-                    <span>{t('hard', language)}</span>
-                </div>
-            </div>
-
-            <div className="bg-stone-900/50 p-4 rounded-lg">
-                <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-semibold text-white">{t('resourceReward', language)}</h3>
-                    <span className="font-bold text-yellow-300 text-lg">x{resourceMultiplier}</span>
-                </div>
-                <p className="text-sm text-stone-400 mb-3">{t('resourceRewardDesc', language)}</p>
-                <input
-                    type="range"
-                    min="1"
-                    max="5"
-                    step="1"
-                    value={resourceMultiplier}
-                    onChange={(e) => onResourceMultiplierChange(Number(e.target.value))}
-                    className="w-full h-2 bg-stone-700 rounded-lg appearance-none cursor-pointer accent-yellow-500"
-                />
-                <div className="flex justify-between text-xs text-stone-500 mt-1 px-1">
-                    <span>x1</span>
-                    <span>x5</span>
-                </div>
-            </div>
+                {isTestingMode && (
+                     <div className="mb-4">
+                        <h3 className="font-bold text-lg">{t('resourceReward', language)}</h3>
+                        <p className="text-sm text-stone-400 mb-2">{t('resourceRewardDesc', language)}</p>
+                         <DifficultySlider 
+                            label=""
+                            value={resourceMultiplier}
+                            onChange={onResourceMultiplierChange}
+                            min={1} max={10} step={1}
+                            labels={['1x', '','','','','','','','', '10x']}
+                        />
+                    </div>
+                )}
+            </section>
             
-            <div className="border-t border-stone-700 pt-4">
-                <h3 className="text-lg font-semibold text-red-400 mb-2">{t('dangerZone', language)}</h3>
-                <div className="bg-stone-900/50 p-4 rounded-lg mb-4">
-                    <div className="flex items-center justify-between">
+            <section className="border-t border-stone-700 pt-4">
+                <h3 className="text-xl font-bold text-red-400 mb-2">{t('dangerZone', language)}</h3>
+                <div className="space-y-4">
+                    <div className="flex justify-between items-center p-2 bg-stone-900/50 rounded">
                         <div>
-                        <h3 className="text-lg font-semibold text-white">{t('testingMode', language)}</h3>
-                        <p className="text-sm text-stone-400">{t('testingModeDesc', language)}</p>
+                            <h4 className="font-bold">{t('testingMode', language)}</h4>
+                            <p className="text-sm text-stone-400">{t('testingModeDesc', language)}</p>
                         </div>
-                        <button
-                        onClick={onToggleTestingMode}
-                        className={`relative inline-flex items-center h-7 w-12 rounded-full transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-800 focus:ring-green-500 ${toggleBgClass}`}
-                        aria-checked={isTestingMode}
-                        role="switch"
-                        >
-                        <span className={`inline-block w-5 h-5 bg-white rounded-full transform transition-transform duration-300 ease-in-out ${toggleIndicatorClass}`} />
+                         <label htmlFor="testing-toggle" className="flex items-center cursor-pointer">
+                            <div className="relative">
+                                <input type="checkbox" id="testing-toggle" className="sr-only" checked={isTestingMode} onChange={onToggleTestingMode} />
+                                <div className="block bg-stone-600 w-14 h-8 rounded-full"></div>
+                                <div className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition ${isTestingMode ? 'translate-x-6 bg-yellow-400' : ''}`}></div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div className="flex justify-between items-center p-2 bg-stone-900/50 rounded">
+                        <div>
+                            <h4 className="font-bold">{t('regenerateMine', language)}</h4>
+                            <p className="text-sm text-stone-400">{t('regenerateMineDesc', language)}</p>
+                        </div>
+                        <button onClick={onRegenerateMine} className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-md transition-colors">
+                             {t('regenerate', language)}
+                        </button>
+                    </div>
+
+                    <div className="flex justify-between items-center p-2 bg-stone-900/50 rounded">
+                        <div>
+                            <h4 className="font-bold">{t('resetGame', language)}</h4>
+                            <p className="text-sm text-stone-400">{t('resetGameDesc', language)}</p>
+                        </div>
+                        <button onClick={onResetGame} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-colors">
+                             {t('reset', language)}
                         </button>
                     </div>
                 </div>
-                <div className="flex items-center justify-between bg-stone-900/50 p-4 rounded-lg mb-4">
-                    <div>
-                        <p className="text-white">{t('regenerateMine', language)}</p>
-                        <p className="text-sm text-stone-400">{t('regenerateMineDesc', language)}</p>
-                    </div>
-                    <button
-                        onClick={onRegenerateMine}
-                        className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-800 focus:ring-yellow-500"
-                    >
-                        {t('regenerate', language)}
-                    </button>
-                </div>
-                <div className="flex items-center justify-between bg-stone-900/50 p-4 rounded-lg">
-                    <div>
-                    <p className="text-white">{t('resetGame', language)}</p>
-                    <p className="text-sm text-stone-400">{t('resetGameDesc', language)}</p>
-                    </div>
-                    <button
-                    onClick={onResetGame}
-                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-800 focus:ring-red-500"
-                    >
-                    {t('reset', language)}
-                    </button>
-                </div>
-            </div>
+            </section>
         </div>
       </div>
     </div>
